@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: monitor-app
+  name: monitor
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monitor-app
+  template:
+    metadata:
+      labels:
+        app: monitor-app
+    spec:
+      containers:
+        - name: monitor
+          image: monitor
+          ports:
+            - containerPort: 80
+              name: monitor
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: monitor-app
+  labels:
+    app: monitor
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: monitor-app
